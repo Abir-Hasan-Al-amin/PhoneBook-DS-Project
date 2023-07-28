@@ -17,15 +17,17 @@ void addContact()
     do
     {
         struct person *newNode = (struct person *)malloc(sizeof(struct person));
-        printf("\n\nEnter Name :");
-        scanf("%s", newNode->name);
+        printf("\n\nEnter Name: ");
+        fflush(stdin); // Clear input buffer (Windows-specific)
+        fgets(newNode->name, sizeof(newNode->name), stdin);
+        newNode->name[strcspn(newNode->name, "\n")] = '\0'; // Remove the trailing newline from fgets
         printf("Enter Contact Number: ");
         scanf("%s", newNode->phoneNumber);
-        printf("Enter Email :");
+        printf("Enter Email: ");
         scanf("%s", newNode->email);
-        printf("Enter Address :");
+        printf("Enter Address: ");
         scanf("%s", newNode->address);
-        printf("Enter Gender :");
+        printf("Enter Gender: ");
         scanf("%s", newNode->gender);
         newNode->next = NULL;
         if (head == NULL)
@@ -47,10 +49,11 @@ void addContact()
         fprintf(file, "%s %s %s %s %s\n", newNode->name, newNode->phoneNumber, newNode->email, newNode->address, newNode->gender);
         fclose(file);
         printf("Do You Want to add Another Contact ?");
-        printf("press 1 to add else press any number :");
+        printf("press 1 to add else press any number : ");
         scanf("%d", &c);
     } while (c == 1);
 }
+
 void loadContacts()
 {
     file = fopen("contacts.txt", "r");
